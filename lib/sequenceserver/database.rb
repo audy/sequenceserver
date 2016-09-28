@@ -179,6 +179,11 @@ module SequenceServer
         system cmd
       end
 
+      # get an interactive response from the user
+      def interactive_response
+        STDIN.gets.to_s.strip
+      end
+
       # Show file path and guessed sequence type to the user and obtain a y/n
       # response.
       #
@@ -189,8 +194,7 @@ module SequenceServer
         puts "FASTA file: #{file}"
         puts "FASTA type: #{type}"
         print 'Proceed? [y/n] (Default: y): '
-        response = STDIN.gets.to_s.strip
-        !response.match(/n/i)
+        !interactive_response.match(/n/i)
       end
 
       # Generate a title for the given database and show it to the user for
@@ -211,8 +215,7 @@ module SequenceServer
       def fetch_tax_id
         default = 0
         print 'Enter taxid (optional): '
-        response_user = STDIN.gets.to_s.strip
-        response_user.empty? && default || response_user
+        interactive_response || default
       end
 
       # Returns true if the database name appears to be a multi-part database
